@@ -1,5 +1,5 @@
 #
-# $Id: config.mk 4643 2010-12-20 12:10:41Z lottaviano $
+# $Id$
 # Copyright 2002,2003, 2004, 2006 Develer S.r.l. (http://www.develer.com/)
 # All rights reserved.
 #
@@ -11,9 +11,7 @@
 # Programmer type
 # see local pgm_config.mk for programmer customization.
 
-#Optimize for the size ?
 OPTCFLAGS = -ffunction-sections -fdata-sections
-#OPTCFLAGS = -ffunction-sections -fdata-sections -fno-inline-small-functions -mrelax -nostartfiles
 #OPTCFLAGS = -funsafe-loop-optimizations
 
 # For AVRStudio

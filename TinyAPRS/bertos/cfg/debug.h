@@ -55,6 +55,7 @@
 #include <cfg/os.h>
 #include <cfg/compiler.h>
 
+#include <stdarg.h>
 #include "cfg/cfg_debug.h"   /* CONFIG_KDEBUG_* */
 
 /*
@@ -160,12 +161,18 @@
 	#else /* !CPU_HARVARD */
 		void kputs(const char *str);
 		void kprintf(const char *fmt, ...) FORMAT(__printf__, 1, 2);
+		void kvprintf(const char *fmt, va_list ap);
 		int __bassert(const char *cond, const char *file, int line);
 		void __trace(const char *func);
 		void __tracemsg(const char *func, const char *fmt, ...) FORMAT(__printf__, 2, 3);
 		int __invalid_ptr(void *p, const char *name, const char *file, int line);
 		int __check_wall(long *wall, int size, const char *name, const char *file, int line);
 	#endif /* !CPU_HARVARD */
+
+	#if CONFIG_KERN_LOGGER
+		bool klogger_init(void);
+		void klogger_exit(void);
+	#endif
 
 	#if CONFIG_KDEBUG_VERBOSE_ASSERT
 		/**
@@ -311,6 +318,11 @@
 	INLINE int kputnum(UNUSED_ARG(int, num)) { return 0; }
 	INLINE void kputs(UNUSED_ARG(const char *, str)) { /* nop */ }
 	INLINE void kdump(UNUSED_ARG(const void *, buf), UNUSED_ARG(size_t, len)) { /* nop */ }
+
+	#if CONFIG_KERN_LOGGER
+		INLINE bool klogger_init(void) { return true; }
+		INLINE void klogger_exit(void) { /* nop */ }
+	#endif /* CONFIG_KERN_LOGGER */
 
 	#if defined(__cplusplus) && COMPILER_VARIADIC_MACROS
 		/* G++ can't inline functions with variable arguments... */

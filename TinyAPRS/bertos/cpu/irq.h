@@ -72,7 +72,7 @@
 	 * NOTE: 0 means that an interrupt is not affected by the global IRQ
 	 * priority settings.
 	 */
-	#define IRQ_PRIO		    0x80
+	#define IRQ_PRIO			0x80
 	#define IRQ_PRIO_MIN		0xf0
 	#define IRQ_PRIO_MAX		0
 	/*
@@ -318,6 +318,8 @@
 		})
 
 		#define IRQ_ENABLED() ((CPU_READ_FLAGS() & 0xc0) != 0xc0)
+
+		#define IRQ_RUNNING() ((CPU_READ_FLAGS() & 0x0F) == 0x02)
 
 		#if (CONFIG_KERN && CONFIG_KERN_PREEMPT)
 			EXTERN_C void asm_irq_switch_context(void);
